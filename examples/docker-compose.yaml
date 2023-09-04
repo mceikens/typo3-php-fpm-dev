@@ -15,7 +15,7 @@ services:
     networks:
       - internal
   php:
-    image: mceikens/typo3-php-fpm-dev-74:1.0.0
+    image: mceikens/typo3-php-fpm-dev:74
     volumes:
       - ./:./usr/share/nginx/html/app:rw,cached
     networks:
