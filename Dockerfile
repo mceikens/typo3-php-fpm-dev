@@ -50,7 +50,7 @@ RUN apk add --no-cache \
     linux-headers
 
 RUN apk upgrade --no-cache --ignore alpine-baselayout
-RUN pecl install imagick
+
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install -j$(nproc) gd shmop \
                           intl \
