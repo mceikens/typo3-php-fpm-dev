@@ -1,0 +1,41 @@
+version: '3.9'
+services:
+  db:
+    image: mariadb:11.1.2
+    volumes:
+      - database_volume./var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: "dev"
+      MYSQL_USER: "dev"
+      MYSQL_PASSWORD: "dev"
+      MYSQL_ROOT_PASSWORD: "root"
+    restart: on-failure
+    networks:
+      - internal
+  php:
+    image: mceikens/typo3-php-fpm-dev-74:1.0.0
+    volumes:
+      - ./:./usr/share/nginx/html/app:rw,cached
+    networks:
+      - internal
+    depends_on:
+      - db
+  nginx:
+    image: nginx:1.25.2-alpine
+    volumes:
+      - ./conf.d/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:./usr/share/nginx/html/app:rw,cached
+    networks:
+      - internal
+    ports:
+      - 80:80
+    depends_on:
+      - php
+networks:
+  internal:
+    driver: bridge
+volumes:
+  database_volume:
+    driver: local
