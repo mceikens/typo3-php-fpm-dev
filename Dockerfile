@@ -1,27 +1,32 @@
-FROM php:7.4-fpm-alpine3.16
+FROM php:8.0-fpm-alpine3.16
 USER root
 RUN apk update
 RUN apk add --no-cache \
-    build-base \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
+    build-base \
+    libpng-dev \
     libwebp-dev \
-    bzip2-dev \
-    jpegoptim optipng pngquant gifsicle \
+    libzip-dev \
+    jpegoptim \
+    optipng \
+    pngquant \
+    gifsicle \
     vim \
     unzip \
     curl \
     python3 \
+    py3-pip \
     git \
+    gcc \
     libxml2-dev \
     zlib-dev \
-    libbz2 \
+    bzip2-dev \
     openssl-dev \
     libxslt-dev \
     sqlite-dev \
     graphicsmagick \
-    musl-locales \
     gmp-dev \
     make \
     gcc \
@@ -30,20 +35,19 @@ RUN apk add --no-cache \
     nfs-utils \
     libc-dev \
     pkgconfig \
-    libgd \
     gd-dev \
     libressl-dev \
     oniguruma-dev \
     mariadb-client \
-    imagemagick-dev \
     icu-dev \
     libcurl \
     curl-dev \
     gettext-dev \
-    libzip-dev \
     shadow \
-    mysql-client \
-    bash
+    texlive \
+    texlive-full \
+    biber \
+    linux-headers
 
 RUN apk upgrade --no-cache --ignore alpine-baselayout
 RUN pecl install imagick
@@ -77,7 +81,7 @@ RUN pecl install ast-1.1.0
 RUN docker-php-ext-enable apcu intl redis ast
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer --version
-RUN yes | pecl install xdebug-3.1.6
+RUN yes | pecl install xdebug-3.2.2
 COPY ./conf.d/ /usr/local/etc/php/conf.d/
 RUN mkdir -p /usr/share/nginx/html/app
 RUN chown -R www-data.www-data /usr/share/nginx/html/
