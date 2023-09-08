@@ -78,6 +78,10 @@ RUN docker-php-ext-enable apcu intl redis ast
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer --version
 RUN yes | pecl install xdebug-3.1.6
+
+RUN usermod -u 1000 www-data
+RUN groupmod -g 1000 www-data
+
 COPY ./conf.d/ /usr/local/etc/php/conf.d/
 RUN mkdir -p /usr/share/nginx/html/app
 RUN chown -R www-data.www-data /usr/share/nginx/html/
