@@ -73,6 +73,10 @@ RUN docker-php-ext-install gd mbstring shmop \
                           zip \
                           sockets
 
+RUN wget https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
+RUN chmod +x mhsendmail_linux_amd64
+RUN mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
+
 RUN pecl install apcu-5.1.22
 RUN pecl install redis
 RUN pecl install ast-1.1.0
